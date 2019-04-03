@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% load static %}
+
+{% block title %} | Search Property {% endblock %}
+
+{% block content %}
+
+<!-- Hero section -->
+<section class="hero-section set-bg" data-setbg="{% static 'img/bg.jpg' %}">
+    <div class="container hero-text text-white">
+      <div class="home-search">
+        <div class="overlay p-5">
+          <h1 class="display-4 mb-4">
+            Property Searching Just Got So Easy
+          </h1>
+          <p class="lead">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Recusandae quas, asperiores eveniet vel nostrum magnam
+            voluptatum tempore! Consectetur, id commodi!</p>
+          <div class="search">
+            <form action="{% url 'search' %}" method="GET">
+              <!-- Form Row 1 -->
+              <div class="form-row">
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">Keywords</label>
+                  <input type="text" name="keywords" class="form-control" placeholder="Keyword (Pool, Garage, etc)">
+                </div>
+
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">City</label>
+                  <input type="text" name="city" class="form-control" placeholder="City">
+                </div>
+
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">State</label>
+                  <select name="state" class="form-control">
+                    <option selected="true" disabled="disabled">State (All)</option>
+                      {% for key, value in state_choices.items %}
+                        <option value="{{ key }}">{{ value }}</option>
+                      {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <!-- Form Row 2 -->
+              <div class="form-row">
+                <div class="col-md-6 mb-3">
+                  <label class="sr-only">Bedrooms</label>
+                  <select name="bedrooms" class="form-control">
+                    <option selected="true" disabled="disabled">Bedrooms (All)</option>
+                      {% for key, value in bedroom_choices.items %}
+                        <option value="{{ key }}">{{ value }}</option>
+                      {% endfor %}
+                  </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <select name="price" class="form-control" id="type">
+                    <option selected="true" disabled="disabled">Max Price (Any)</option>
+                      {% for key, value in price_choices.items %}
+                        <option value="{{ key }}">{{ value }}</option>
+                      {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <button class="btn btn-secondary btn-block mt-4" type="submit">Submit form</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+<!-- Hero section end -->
+
+<!-- Breadcrumb -->
+<div class="site-breadcrumb">
+    <div class="container">
+        <a href="{% url 'index' %}"><i class="fa fa-home"></i>Home</a>
+        <span><i class="fa fa-angle-right"></i>Search</span>
+    </div>
+</div>
+
+<!-- page -->
+<section class="page-section categories-page">
+    <div class="container">
+        <div class="row">
+
+            {% if queryset_list %}
+                {% for ql in queryset_list %}
+                    <div class="col-lg-4 col-md-6">
+                        <!-- feature -->
+                        <div class="feature-item">
+                            <div class="feature-pic set-bg" data-setbg="{{ ql.photo_main.url }}">
+                                <div class="sale-notic">FOR SALE</div>
+                            </div>
+                            <div class="feature-text">
+                                <div class="text-center feature-title">
+                                    <h5>{{ ql.title }}</h5>
+                                    <p><i class="fa fa-map-marker"></i> {{ ql.city }}, {{ ql.state }} {{ ql.zipcode }}</p>
+                                </div>
+                                <div class="room-info-warp">
+                                    <div class="room-info">
+                                        <div class="rf-left">
+                                            <p><i class="fa fa-th-large"></i> Size: {{ ql.sqft }} sqft</p>
+                                            <p><i class="fa fa-bed"></i> Bedrooms: {{ ql.bedrooms }}</p>
+                                        </div>
+                                        <div class="rf-right">
+                                            <p><i class="fa fa-car"></i> Garage: {{ ql.garage }}</p>
+                                            <p><i class="fa fa-bath"></i> Bathrooms: {{ ql.bathrooms }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="room-info">
+                                        <div class="rf-left">
+                                            <p><i class="fa fa-user"></i>  Agent: {{ ql.realtor }}</p>
+                                        </div>
+                                        <div class="rf-right">
+                                            <p><i class="fa fa-clock-o"></i> {{ ql.list_date | timesince }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="{% url 'single_listing' ql.id %}" class="room-price">${{ ql.price | intcomma }}</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-md-12">
+                    <h2>No Lstings Available!</h2>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+
+                {% if listings.has_other_pages %}
+                    <ul class="pagination">
+                        {% if listings.has_previous %}
+                            <li class="page-item">
+                                <a href="?page={{listings.prebious_page_number}}" class="page-link">&laquo;</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link">&laquo;</a>
+                            </li>
+                        {% endif %}
+                        {% for i in listings.paginator.page_range %}
+                            {% if listings.number == i %}
+                                <li class="page-item active">
+                                    <a class="page-link">{{ i }}</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a href="?page={{ i }}" class="page-link">{{ i }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if listings.has_next %}
+                            <li class="page-item">
+                                <a href="?page={{listings.next_page_number}}" class="page-link">&raquo;</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link">&raquo;</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
+
+            </div>
+        </div>
+
+    </div>
+</section>
+<!-- page end -->
+
+{% endblock %}

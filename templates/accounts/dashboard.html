@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} | Dashboard {% endblock %}
+
+{% block content %}
+
+<!-- Page top section -->
+<section class="page-top-section set-bg" data-setbg="{% static 'img/page-top-bg.jpg' %}">
+    <div class="container text-white">
+       <h3>User Dashboard</h3>
+        <p>Manage your BT Real Estate account</p>
+    </div>
+</section>
+<!--  Page top end -->
+
+<!-- Breadcrumb -->
+<div class="site-breadcrumb">
+    <div class="container">
+        <a href="{% url 'index' %}"><i class="fa fa-home"></i>Home</a>
+        <span><i class="fa fa-angle-right"></i>User Dashboard</span>
+    </div>
+</div>
+<!-- Alerts -->
+{% include 'partial/_alerts.html' %}
+
+<section id="dashboard" class="py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Welcome {{ user.get_full_name }}</h4>
+                <h2>Your Profile</h2>
+                <p>First Name: {{ user.first_name }}</p>
+                <p>Last Name: {{ user.last_name }}</p>
+                <p>Email Address: {{ user.email }}</p>
+                <p>Username: {{ user.username }}</p>
+                <p>Password: {{ user.password }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

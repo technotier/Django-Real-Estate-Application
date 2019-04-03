@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} | Single Property {% endblock %}
+
+{% load humanize %}
+
+{% block content %}
+
+<!-- Page top section -->
+<section class="page-top-section set-bg" data-setbg="{% static 'img/page-top-bg.jpg' %}">
+    <div class="container text-white">
+        <h2>{{ single_listing.title }}</h2>
+    </div>
+</section>
+<!--  Page top end -->
+
+<!-- Breadcrumb -->
+<div class="site-breadcrumb">
+    <div class="container">
+        <a href="{% url 'index' %}"><i class="fa fa-home"></i>Home</a>
+        <span><i class="fa fa-angle-right"></i>Single Listing</span>
+    </div>
+</div>
+
+<!-- Page -->
+<section class="page-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 single-list-page">
+                <div class="single-list-slider owl-carousel" id="sl-slider">
+                    <div class="sl-item set-bg" data-setbg="{{ single_listing.photo_1.url }}">
+                        <div class="sale-notic">FOR SALE</div>
+                    </div>
+                    <div class="sl-item set-bg" data-setbg="{{ single_listing.photo_2.url }}">
+                        <div class="rent-notic">FOR Rent</div>
+                    </div>
+                    <div class="sl-item set-bg" data-setbg="{{ single_listing.photo_3.url }}">
+                        <div class="sale-notic">FOR SALE</div>
+                    </div>
+                    <div class="sl-item set-bg" data-setbg="{{ single_listing.photo_4.url }}">
+                        <div class="rent-notic">FOR Rent</div>
+                    </div>
+                    <div class="sl-item set-bg" data-setbg="{{ single_listing.photo_5.url }}">
+                        <div class="sale-notic">FOR SALE</div>
+                    </div>
+                </div>
+                <div class="owl-carousel sl-thumb-slider" id="sl-slider-thumb">
+                    <div class="sl-thumb set-bg" data-setbg="{{ single_listing.photo_1.url }}"></div>
+                    <div class="sl-thumb set-bg" data-setbg="{{ single_listing.photo_2.url }}"></div>
+                    <div class="sl-thumb set-bg" data-setbg="{{ single_listing.photo_3.url }}"></div>
+                    <div class="sl-thumb set-bg" data-setbg="{{ single_listing.photo_4.url }}"></div>
+                    <div class="sl-thumb set-bg" data-setbg="{{ single_listing.photo_5.url }}"></div>
+                </div>
+                <div class="single-list-content">
+                    <div class="row">
+                        <div class="col-xl-8 sl-title">
+                            <h2>{{ single_listing.title }}</h2>
+                            <p><i class="fa fa-map-marker"></i>{{ single_listing.city }}, {{ single_listing.state }} {{ single_listing.zipcode }}</p>
+                        </div>
+                        <div class="col-xl-4">
+                            <a href="#" class="price-btn">${{ single_listing.price | intcomma }}</a>
+                        </div>
+                    </div>
+                    <h3 class="sl-sp-title">Property Details</h3>
+                    <div class="row property-details-list">
+                        <div class="col-md-4 col-sm-6">
+                            <p><i class="fa fa-th-large"></i> {{ single_listing.sqft }} Square foot</p>
+                            <p><i class="fa fa-bed"></i> {{ single_listing.bedrooms }} Bedrooms</p>
+                            <p><i class="fa fa-user"></i> {{ single_listing.realtor.name }}</p>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <p><i class="fa fa-car"></i> {{ single_listing.garage }} Garages</p>
+                            <a href="{% url 'topic' name=single_listing.category.name %}">
+                                <p><i class="fa fa-building-o"></i> {{ single_listing.category.name }}</p>
+                            </a>
+                            <p><i class="fa fa-clock-o"></i> {{ single_listing.list_date | timesince }}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <p><i class="fa fa-bath"></i> {{ single_listing.bathrooms }} Bathrooms</p>
+                            <p><i class="fa fa-trophy"></i> {{ single_listing.list_date }}</p>
+                        </div>
+                    </div>
+                    <h3 class="sl-sp-title">Description</h3>
+                    <div class="description">
+                        <p>{{ single_listing.description }}</p>
+                    </div>
+                    <h3 class="sl-sp-title">Property Details</h3>
+                    <div class="row property-details-list">
+                        <div class="col-md-4 col-sm-6">
+                            <p><i class="fa fa-check-circle-o"></i> {{ single_listing.ac }}</p>
+                            <p><i class="fa fa-check-circle-o"></i> {{ single_listing.tel }}</p>
+                            <p><i class="fa fa-check-circle-o"></i> {{ single_listing.laundry }}</p>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <p><i class="fa fa-check-circle-o"></i> {{ single_listing.heater }}</p>
+                            <a href="{% url 'topic' name=single_listing.category.name %}">
+                                <p><i class="fa fa-check-circle-o"></i> {{ single_listing.category.name }}</p>
+                            </a>
+                            <p><i class="fa fa-check-circle-o"></i> {{ single_listing.metro }}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <p><i class="fa fa-check-circle-o"></i> {{ single_listing.city_views }}</p>
+                            <p><i class="fa fa-check-circle-o"></i> Internet</p>
+                            <p><i class="fa fa-check-circle-o"></i> {{ single_listing.electric }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- sidebar -->
+            <div class="col-lg-4 col-md-7 sidebar">
+                <div class="author-card">
+                    <div class="author-img set-bg" data-setbg="{{ single_listing.realtor.avatar.url }}"></div>
+                    <div class="author-info">
+                        <h5>{{ single_listing.realtor.name }}</h5>
+                        <p>{{ single_listing.realtor.designation }}</p>
+                    </div>
+                    <div class="author-contact">
+                        <p><i class="fa fa-phone"></i>{{ single_listing.realtor.phone }}</p>
+                        <p><i class="fa fa-envelope"></i>{{ single_listing.realtor.email }}</p>
+                    </div>
+                </div>
+                <div class="contact-form-card">
+                <!-- Alerts -->
+                {% include 'partial/_alerts.html' %}
+                    <h5>Do you have any question?</h5>
+                    <form action="{% url 'single_listing' single_listing.id %}" method="POST">
+                        {% csrf_token %}
+                        <!--{{ form.as_p }}-->
+                        {% if user.is_authenticated %}
+                            <input type="hidden" name="user_id" value="{{ user.id }}">
+                        {% else %}
+                            <input type="hidden" name="user_id" value="0">
+                        {% endif %}
+                        <input type="text" placeholder="Listing Title" value="{{ single_listing.title }}">
+                        <input type="text" placeholder="Your name" {% if user.is_authenticated %} value="{{ user.first_name }} {{ user.last_name }}" {% endif %} required>
+                        <input type="text" placeholder="Your email" {% if user.is_authenticated %} value="{{ user.email }}" {% endif %} required>
+                        <textarea placeholder="Your question"></textarea>
+                        <button>SEND</button>
+                    </form>
+                </div>
+                <div class="related-properties">
+                    <h2>Related Property</h2>
+                    {% if related %}
+                        {% for r in related %}
+                            <div class="rp-item">
+                                <div class="rp-pic set-bg" data-setbg="{{ r.photo_main.url }}">
+                                    <div class="rent-notic">FOR Rent</div>
+                                </div>
+                                <div class="rp-info">
+                                    <h5>{{ r.title }}</h5>
+                                    <p><i class="fa fa-map-marker"></i>{{ r.city }}, {{ r.state }}, {{ r.zipcode }}</p>
+                                    <br>
+                                    <p>{{ r.description | truncatewords:20 }}</p>
+                                </div>
+                                <a href="{% url 'single_listing' r.id %}" class="rp-price">${{ r.price | intcomma }}</a>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="col-md-12">
+                            <h3>No Related Listings!</h3>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Page end -->
+
+{% endblock %}
+
+

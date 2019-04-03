@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} | Login {% endblock %}
+
+{% block content %}
+
+<!-- Page top section -->
+<section class="page-top-section set-bg" data-setbg="{% static 'img/page-top-bg.jpg' %}">
+    <div class="container text-white">
+        <h3>Login Page</h3>
+    </div>
+</section>
+<!--  Page top end -->
+
+<!-- Breadcrumb -->
+<div class="site-breadcrumb">
+    <div class="container">
+        <a href="{% url 'index' %}"><i class="fa fa-home"></i>Home</a>
+        <span><i class="fa fa-angle-right"></i>Login</span>
+    </div>
+</div>
+
+<section id="login" class="bg-light py-5">
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h4>
+            <i class="fa fa-sign-in"></i> Login</h4>
+        </div>
+        <div class="card-body">
+        <!-- Alerts -->
+        {% include 'partial/_alerts.html' %}
+          <form action="{% url 'login' %}" method="POST">
+              {% csrf_token %}
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" name="username" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+              <label for="password2">Password</label>
+              <input type="password" name="password" class="form-control" required>
+            </div>
+
+            <input type="submit" value="Login" class="btn btn-secondary btn-block">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+
+{% endblock %}

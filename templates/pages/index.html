@@ -1,0 +1,353 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load humanize %}
+
+{% block content %}
+
+<!-- Hero section -->
+<section class="hero-section set-bg" data-setbg="{% static 'img/bg.jpg' %}">
+    <div class="container hero-text text-white">
+      <div class="home-search">
+        <div class="overlay p-5">
+          <h1 class="display-4 mb-4">
+            Property Searching Just Got So Easy
+          </h1>
+          <p class="lead">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Recusandae quas, asperiores eveniet vel nostrum magnam
+            voluptatum tempore! Consectetur, id commodi!</p>
+          <div class="search">
+            <form action="{% url 'search' %}" method="GET">
+              <!-- Form Row 1 -->
+              <div class="form-row">
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">Keywords</label>
+                  <input type="text" name="keywords" class="form-control" placeholder="Keyword (Pool, Garage, etc)">
+                </div>
+
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">City</label>
+                  <input type="text" name="city" class="form-control" placeholder="City">
+                </div>
+
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">State</label>
+                  <select name="state" class="form-control">
+                    <option selected="true" disabled="disabled">State (All)</option>
+                      {% for key, value in state_choices.items %}
+                        <option value="{{ key }}">{{ value }}</option>
+                      {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <!-- Form Row 2 -->
+              <div class="form-row">
+                <div class="col-md-6 mb-3">
+                  <label class="sr-only">Bedrooms</label>
+                  <select name="bedrooms" class="form-control">
+                    <option selected="true" disabled="disabled">Bedrooms (All)</option>
+                      {% for key, value in bedroom_choices.items %}
+                        <option value="{{ key }}">{{ value }}</option>
+                      {% endfor %}
+                  </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <select name="price" class="form-control" id="type">
+                    <option selected="true" disabled="disabled">Max Price (Any)</option>
+                      {% for key, value in price_choices.items %}
+                        <option value="{{ key }}">{{ value }}</option>
+                      {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <button class="btn btn-secondary btn-block mt-4" type="submit">Submit form</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+<!-- Hero section end -->
+
+
+<!--&lt;!&ndash; Filter form section &ndash;&gt;-->
+<!--<div class="filter-search">-->
+    <!--<div class="container">-->
+        <!--<form class="filter-form">-->
+            <!--<input type="text" name="keywords" placeholder="Enter a street name, address number or keyword">-->
+            <!--<select>-->
+                <!--<option value="City">City</option>-->
+            <!--</select>-->
+            <!--<select>-->
+                <!--<option value="City">State</option>-->
+            <!--</select>-->
+            <!--<button class="site-btn fs-submit">SEARCH</button>-->
+        <!--</form>-->
+    <!--</div>-->
+<!--</div>-->
+<!--&lt;!&ndash; Filter form section end &ndash;&gt;-->
+
+
+<!-- Properties section -->
+<section class="properties-section spad">
+    <div class="container">
+        <div class="section-title text-center">
+            <h3>RECENT PROPERTIES</h3>
+            <p>Discover how much the latest properties have been sold for</p>
+        </div>
+        <div class="row">
+
+            {% if recent %}
+                {% for r in recent %}
+                    <div class="col-md-6">
+                        <div class="propertie-item set-bg" data-setbg="{{ r.photo_main.url }}">
+                            <!--{% if sale %}-->
+                                <!--<div class="sale-notic">FOR SALE</div>-->
+                            <!--{% else %}-->
+                                <!--<div class="rent-notic">FOR RENT</div>-->
+                            <!--{% endif %}-->
+                            <div class="propertie-info text-white">
+                                <div class="info-warp">
+                                    <h5>{{ r.title }}</h5>
+                                    <p><i class="fa fa-map-marker"></i> {{ r.city }}, {{ r.state }} {{ r.zipcode }}</p>
+                                </div>
+                                <div class="price">${{ r.price | intcomma }}</div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-md-12 text-center">
+                    <h2>No Listings Available</h2>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+<!-- Properties section end -->
+
+
+<!-- Services section -->
+<section class="services-section spad set-bg" data-setbg="{% static 'img/service-bg.jpg' %}">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <img src="{% static 'img/service.jpg' %}" alt="">
+            </div>
+            <div class="col-lg-5 offset-lg-1 pl-lg-0">
+                <div class="section-title text-white">
+                    <h3>OUR SERVICES</h3>
+                    <p>We provide the perfect service for </p>
+                </div>
+                <div class="services">
+                    <div class="service-item">
+                        <i class="fa fa-comments"></i>
+                        <div class="service-text">
+                            <h5>Consultant Service</h5>
+                            <p>In Aenean purus, pretium sito amet sapien denim consectet sed urna placerat sodales magna leo.</p>
+                        </div>
+                    </div>
+                    <div class="service-item">
+                        <i class="fa fa-home"></i>
+                        <div class="service-text">
+                            <h5>Properties Management</h5>
+                            <p>In Aenean purus, pretium sito amet sapien denim consectet sed urna placerat sodales magna leo.</p>
+                        </div>
+                    </div>
+                    <div class="service-item">
+                        <i class="fa fa-briefcase"></i>
+                        <div class="service-text">
+                            <h5>Renting and Selling</h5>
+                            <p>In Aenean purus, pretium sito amet sapien denim consectet sed urna placerat sodales magna leo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Services section end -->
+
+
+<!-- feature section -->
+<section class="feature-section spad">
+    <div class="container">
+        <div class="section-title text-center">
+            <h3>Featured Listings</h3>
+            <p>Browse houses and flats for sale and to rent in your area</p>
+        </div>
+        <div class="row">
+            {% if featured %}
+                {% for f in featured %}
+                    <div class="col-lg-4 col-md-6">
+                        <!-- feature -->
+                        <div class="feature-item">
+                            <div class="feature-pic set-bg" data-setbg="{{ f.photo_main.url }}">
+                                <!--<div class="sale-notic">FOR SALE</div>-->
+                            </div>
+                            <div class="feature-text">
+                                <div class="text-center feature-title">
+                                    <h5>{{ f.title }}</h5>
+                                    <p><i class="fa fa-map-marker"></i> {{ f.city }}, {{ f.state }} {{ f.zipcode }}</p>
+                                </div>
+                                <div class="room-info-warp">
+                                    <div class="room-info">
+                                        <div class="rf-left">
+                                            <p><i class="fa fa-th-large"></i> {{ f.sqft }} square foot</p>
+                                            <p><i class="fa fa-bed"></i> {{ f.bedrooms }} Bedrooms</p>
+                                        </div>
+                                        <div class="rf-right">
+                                            <p><i class="fa fa-car"></i> {{ f.garage }} Garages</p>
+                                            <p><i class="fa fa-bath"></i> {{ f.bathrooms }} Bathrooms</p>
+                                        </div>
+                                    </div>
+                                    <div class="room-info">
+                                        <div class="rf-left">
+                                            <p><i class="fa fa-user"></i> {{ f.realtor.name }}</p>
+                                        </div>
+                                        <div class="rf-right">
+                                            <p><i class="fa fa-clock-o"></i> {{ f.list_date | timesince }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="{% url 'single_listing' f.id %}" class="room-price">${{ f.price | intcomma }}</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-md-12 text-center">
+                    <h2>No Featured Property</h2>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+<!-- feature section end -->
+
+
+<!-- feature category section -->
+<section class="feature-category-section spad">
+    <div class="container">
+        <div class="section-title text-center">
+            <h3>LOOKING PROPERTY</h3>
+            <p>What kind of property are you looking for? We will help you</p>
+        </div>
+        <div class="row">
+            {% if cat_property %}
+                {% for c in cat_property %}
+                    <div class="col-lg-3 col-md-6 f-cata">
+                        <img src="{{ c.cat_img.url }}" alt="">
+                        <a href="#"><h5>{{ c.name }}</h5></a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-md-12 text-center">
+                    <h2>No Category Available!</h2>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+<!-- feature category section end-->
+
+
+<!--&lt;!&ndash; Gallery section &ndash;&gt;-->
+<!--<section class="gallery-section spad">-->
+    <!--<div class="container">-->
+        <!--<div class="section-title text-center">-->
+            <!--<h3>Popular Places</h3>-->
+            <!--<p>We understand the value and importance of place</p>-->
+        <!--</div>-->
+        <!--<div class="gallery">-->
+            <!--<div class="grid-sizer"></div>-->
+            <!--<a href="#" class="gallery-item grid-long set-bg" data-setbg="img/gallery/1.jpg">-->
+                <!--<div class="gi-info">-->
+                    <!--<h3>New York</h3>-->
+                    <!--<p>118 Properties</p>-->
+                <!--</div>-->
+            <!--</a>-->
+            <!--<a href="#" class="gallery-item grid-wide set-bg" data-setbg="img/gallery/2.jpg">-->
+                <!--<div class="gi-info">-->
+                    <!--<h3>Florida</h3>-->
+                    <!--<p>112 Properties</p>-->
+                <!--</div>-->
+            <!--</a>-->
+            <!--<a href="#" class="gallery-item set-bg" data-setbg="img/gallery/3.jpg">-->
+                <!--<div class="gi-info">-->
+                    <!--<h3>San Jose</h3>-->
+                    <!--<p>72 Properties</p>-->
+                <!--</div>-->
+            <!--</a>-->
+            <!--<a href="#" class="gallery-item set-bg" data-setbg="img/gallery/4.jpg">-->
+                <!--<div class="gi-info">-->
+                    <!--<h3>St Louis</h3>-->
+                    <!--<p>50 Properties</p>-->
+                <!--</div>-->
+            <!--</a>-->
+
+        <!--</div>-->
+    <!--</div>-->
+<!--</section>-->
+<!--&lt;!&ndash; Gallery section end &ndash;&gt;-->
+
+
+<!-- Review section -->
+<section class="review-section set-bg" data-setbg="{% static 'img/review-bg.jpg' %}">
+    <div class="container">
+        <div class="review-slider owl-carousel">
+
+            {% if testimonials %}
+                {% for testimonial in testimonials %}
+                    <div class="review-item text-white">
+                        <p>{{ testimonial.content }}</p>
+                        <h5>{{ testimonial.name }}</h5>
+                        <span>{{ testimonial.designation }}</span>
+                        <div class="clint-pic set-bg" data-setbg="{{ testimonial.avatar.url }}"></div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-md-12">
+                    <h2>NO Testimonials Available!</h2>
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+</section>
+<!-- Review section end-->
+
+
+<!-- Blog section -->
+<section class="blog-section spad">
+    <div class="container">
+        <div class="section-title text-center">
+            <h3>LATEST NEWS</h3>
+            <p>Real estate news headlines around the world.</p>
+        </div>
+        <div class="row">
+            <!-- blog post -->
+            {% if blog %}
+                {% for b in blog %}
+                    <div class="col-lg-4 col-md-6 blog-item">
+                        <img src="{{ b.blog_img.url }}" alt="">
+                        <h5><a href="{% url 'single_blog' b.id %}">{{ b.title }}</a></h5>
+                        <div class="blog-meta">
+                            <span><i class="fa fa-user"></i>{{ b.article_author.name }}</span>
+                            <span><i class="fa fa-clock-o"></i>{{ b.posted_on }}</span>
+                        </div>
+                        <p>{{ b.content | truncatewords:20 }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-md-12 text-center">
+                    <h2>No Blog Posts Available!</h2>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+<!-- Blog section end -->
+
+
+{% endblock %}

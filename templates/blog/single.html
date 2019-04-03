@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} | Blog Detail {% endblock %}
+
+{% load static %}
+
+{% block content %}
+
+<!-- Page top section -->
+<section class="page-top-section single-blog set-bg " data-setbg="{% static 'img/page-top-bg.jpg' %}">
+    <div class="container text-white">
+        <div class="row">
+            <div class="col-xl-8 offset-lg-2">
+                <h2>{{ single_blog.title }}</h2>
+                <a href=""><i class="fa fa-user"></i>{{ single_blog.article_author }}</a>
+                <a href=""><i class="fa fa-clock-o"></i>{{ single_blog.posted_on }}</a>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  Page top end -->
+
+<!-- Breadcrumb -->
+<div class="site-breadcrumb">
+    <div class="container">
+        <a href="{% url 'index' %}"><i class="fa fa-home"></i>Home</a>
+        <span><i class="fa fa-angle-right"></i>Blog Details</span>
+    </div>
+</div>
+
+<!-- page -->
+<section class="page-section single-blog">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 singel-blog-content">
+                <img src="{{ single_blog.blog_img.url }}" alt="">
+                <p>{{ single_blog.content }}</p>
+                <div class="post-author">
+                    <div class="pa-thumb set-bg" data-setbg="{{ single_blog.article_author.profile_pic.url }}"></div>
+                    <div class="pa-content">
+                        <h4>{{ single_blog.article_author.name }}</h4>
+                        <p>{{ single_blog.article_author.details }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- page end-->
+
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} | Our Blog {% endblock %}
+
+{% load static %}
+
+{% block content %}
+
+<!-- Page top section -->
+<section class="page-top-section set-bg" data-setbg="{% static 'img/page-top-bg.jpg' %}">
+    <div class="container text-white">
+        <h2>Blog</h2>
+    </div>
+</section>
+<!--  Page top end -->
+
+<!-- Breadcrumb -->
+<div class="site-breadcrumb">
+    <div class="container">
+        <a href="{% url 'index' %}"><i class="fa fa-home"></i>Home</a>
+        <span><i class="fa fa-angle-right"></i>Blog</span>
+    </div>
+</div>
+
+<!-- page -->
+<section class="page-section blog-page">
+    <div class="container">
+        <div class="row">
+            <!-- blog post -->
+            {% if blog %}
+                {% for b in blog %}
+                    <div class="col-lg-4 col-md-6 blog-item">
+                        <img src="{{ b.blog_img.url }}" alt="">
+                        <h5><a href="{% url 'single_blog' b.id %}">{{ b.title }}</a></h5>
+                        <div class="blog-meta">
+                            <span><i class="fa fa-user"></i>{{ b.article_author.name }}</span>
+                            <span><i class="fa fa-clock-o"></i>{{ b.posted_on }}</span>
+                        </div>
+                        <p>{{ b.content | truncatewords:20 }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-md-12 text-center">
+                    <h2>No Blog Posts Available!</h2>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+
+                {% if blog.has_other_pages %}
+                    <ul class="pagination">
+                        {% if blog.has_previous %}
+                            <li class="page-item">
+                                <a href="?page={{blog.prebious_page_number}}" class="page-link">&laquo;</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link">&laquo;</a>
+                            </li>
+                        {% endif %}
+                        {% for i in blog.paginator.page_range %}
+                            {% if blog.number == i %}
+                                <li class="page-item active">
+                                    <a class="page-link">{{ i }}</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a href="?page={{ i }}" class="page-link">{{ i }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if blog.has_next %}
+                            <li class="page-item">
+                                <a href="?page={{blog.next_page_number}}" class="page-link">&raquo;</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link">&raquo;</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
+
+            </div>
+        </div>
+
+    </div>
+</section>
+<!-- page end -->
+
+{% endblock %}
