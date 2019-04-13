@@ -198,9 +198,9 @@ $(window).on('load', function() {
         preloader: false,
     });
 
-setTimeout(function() {
-  $('#message').fadeOut('slow');
-}, 3000);
+//setTimeout(function() {
+//  $('#message').fadeOut('slow');
+//}, 3000);
 
 })(jQuery);
 
